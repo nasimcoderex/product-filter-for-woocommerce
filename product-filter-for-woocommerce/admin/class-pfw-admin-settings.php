@@ -219,6 +219,71 @@ class PFW_Admin_Settings {
         </p>
         <?php
     }
+
+    /**
+     * Render the Product Offer Enabled checkbox field.
+     */
+    public function render_product_offer_enabled_field() {
+        $value = get_option( 'pfw_product_offer_enabled', false );
+        ?>
+        <input type="checkbox" name="pfw_product_offer_enabled" id="pfw_product_offer_enabled" value="1" <?php checked( true, (bool) $value ); ?> />
+        <label for="pfw_product_offer_enabled">
+            <?php esc_html_e( 'Enable Product Offer at Checkout.', 'product-filter-for-woocommerce' ); ?>
+        </label>
+        <?php
+    }
+
+    /**
+     * Render the Product Offer Product ID number input field.
+     */
+    public function render_product_offer_product_id_field() {
+        $value = get_option( 'pfw_product_offer_product_id', '' );
+        ?>
+        <input type="number" name="pfw_product_offer_product_id" id="pfw_product_offer_product_id" value="<?php echo esc_attr( $value ); ?>" class="regular-text" min="1" step="1" />
+        <p class="description">
+            <?php esc_html_e( 'Enter the Product ID to offer at checkout. Ensure the product is purchasable.', 'product-filter-for-woocommerce' ); ?>
+        </p>
+        <?php
+    }
+
+    /**
+     * Render the Product Offer Text input field.
+     */
+    public function render_product_offer_text_field() {
+        $value = get_option( 'pfw_product_offer_text', '' );
+        ?>
+        <input type="text" name="pfw_product_offer_text" id="pfw_product_offer_text" value="<?php echo esc_attr( $value ); ?>" class="regular-text" />
+        <p class="description">
+            <?php esc_html_e( 'Enter the promotional text to display for the offer (e.g., "Special Offer! Add this product for just $X!").', 'product-filter-for-woocommerce' ); ?>
+        </p>
+        <?php
+    }
+
+    /**
+     * Render the Custom Checkout CSS Enabled checkbox field.
+     */
+    public function render_custom_checkout_css_enabled_field() {
+        $value = get_option( 'pfw_custom_checkout_css_enabled', false );
+        ?>
+        <input type="checkbox" name="pfw_custom_checkout_css_enabled" id="pfw_custom_checkout_css_enabled" value="1" <?php checked( true, (bool) $value ); ?> />
+        <label for="pfw_custom_checkout_css_enabled">
+            <?php esc_html_e( 'Enable Custom CSS for the Custom Product Filter Checkout template.', 'product-filter-for-woocommerce' ); ?>
+        </label>
+        <?php
+    }
+
+    /**
+     * Render the Custom Checkout CSS textarea field.
+     */
+    public function render_custom_checkout_css_field() {
+        $value = get_option( 'pfw_custom_checkout_css', '' );
+        ?>
+        <textarea name="pfw_custom_checkout_css" id="pfw_custom_checkout_css" rows="10" cols="50" class="large-text code"><?php echo esc_textarea( $value ); ?></textarea>
+        <p class="description">
+            <?php esc_html_e( 'Enter custom CSS rules to be applied specifically to the "Custom Product Filter Checkout" template. This CSS will only be applied when that template is active.', 'product-filter-for-woocommerce' ); ?>
+        </p>
+        <?php
+    }
 }
 
 // Instantiate the class.
