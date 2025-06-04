@@ -48,6 +48,16 @@ function pfw_deactivate_plugin() {
  */
 define( 'PRODUCT_FILTER_FOR_WOOCOMMERCE_VERSION', '1.0.0' );
 
+// Define PFW_VERSION for consistency if used elsewhere, though PRODUCT_FILTER_FOR_WOOCOMMERCE_VERSION is primary.
+if ( ! defined( 'PFW_VERSION' ) ) {
+    define( 'PFW_VERSION', PRODUCT_FILTER_FOR_WOOCOMMERCE_VERSION );
+}
+
+// Define plugin URL for easy access to assets.
+if ( ! defined( 'PFW_PLUGIN_URL' ) ) {
+    define( 'PFW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+}
+
 /**
  * Define constants for plugin features.
  */
