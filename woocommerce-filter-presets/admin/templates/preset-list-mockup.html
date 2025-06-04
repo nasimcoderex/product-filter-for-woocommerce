@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?php _e( 'Preset List Mockup', 'woocommerce-filter-presets' ); ?></title>
+    <!-- Basic styling to mimic WP admin look and feel -->
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; margin: 20px; background: #f0f0f1; color: #1d2327; }
+        .wrap { max-width: 960px; margin: 0 auto; background: #fff; padding: 20px; box-shadow: 0 1px 1px rgba(0,0,0,.04); }
+        h1 { font-size: 23px; font-weight: 400; margin: 0 0 20px; padding: 9px 0 4px; line-height: 1.3; }
+        .page-title-action { display: inline-block; text-decoration: none; font-size: 13px; line-height: 2.15384615; min-height: 30px; margin: 0; padding: 0 10px; cursor: pointer; border-width: 1px; border-style: solid; -webkit-appearance: none; border-radius: 3px; white-space: nowrap; box-sizing: border-box; background: #007cba; border-color: #007cba; color: #fff; vertical-align: top; }
+        .page-title-action:hover { background: #0071a1; border-color: #0071a1; color: #fff; }
+        .wp-list-table { border: 1px solid #c3c4c7; border-spacing: 0; width: 100%; clear: both; margin: 0; background: #fff; }
+        .wp-list-table th, .wp-list-table td { padding: 10px; text-align: left; border-bottom: 1px solid #c3c4c7; }
+        .wp-list-table th { font-weight: bold; background-color: #f0f0f1; }
+        .wp-list-table tbody tr:nth-child(odd) { background-color: #f9f9f9; }
+        .wp-list-table .column-name { width: 35%; }
+        .wp-list-table .column-shortcode { width: 25%; }
+        .wp-list-table .column-usage { width: 15%; }
+        .wp-list-table .column-actions { width: 25%; }
+        .wp-list-table .row-actions { color: #72777c; font-size: 13px; padding: 2px 0 0; visibility: hidden; }
+        .wp-list-table tbody tr:hover .row-actions { visibility: visible; }
+        .wp-list-table .row-actions a { text-decoration: none; margin-right: 5px; }
+        .wp-list-table .row-actions .edit a { color: #0071a1; }
+        .wp-list-table .row-actions .duplicate a { color: #646970; }
+        .wp-list-table .row-actions .delete a { color: #b32d2e; }
+        code { font-family: monospace; background-color: #f0f0f1; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1>
+            <?php _e( 'Filter Presets', 'woocommerce-filter-presets' ); ?>
+            <a href="#add-new" class="page-title-action"><?php _e( 'Add New Preset', 'woocommerce-filter-presets' ); ?></a>
+        </h1>
+
+        <table class="wp-list-table widefat striped">
+            <thead>
+                <tr>
+                    <th scope="col" class="column-name"><?php _e( 'Name', 'woocommerce-filter-presets' ); ?></th>
+                    <th scope="col" class="column-shortcode"><?php _e( 'Shortcode', 'woocommerce-filter-presets' ); ?></th>
+                    <th scope="col" class="column-usage"><?php _e( 'Usage Count', 'woocommerce-filter-presets' ); ?></th>
+                    <th scope="col" class="column-actions"><?php _e( 'Actions', 'woocommerce-filter-presets' ); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="column-name">
+                        <strong><a href="#edit-1"><?php _e( 'Primary Sidebar Filters', 'woocommerce-filter-presets' ); ?></a></strong>
+                        <div class="row-actions">
+                            <span class="edit"><a href="#edit-1"><?php _e( 'Edit', 'woocommerce-filter-presets' ); ?></a> | </span>
+                            <span class="duplicate"><a href="#duplicate-1"><?php _e( 'Duplicate', 'woocommerce-filter-presets' ); ?></a> | </span>
+                            <span class="delete"><a href="#delete-1"><?php _e( 'Delete', 'woocommerce-filter-presets' ); ?></a></span>
+                        </div>
+                    </td>
+                    <td class="column-shortcode"><code>[product_filter_preset id="1"]</code></td>
+                    <td class="column-usage">3</td>
+                    <td class="column-actions">
+                        <a href="#edit-1" class="button button-small"><?php _e( 'Edit', 'woocommerce-filter-presets' ); ?></a>
+                        <a href="#duplicate-1" class="button button-small"><?php _e( 'Duplicate', 'woocommerce-filter-presets' ); ?></a>
+                        <a href="#delete-1" class="button button-small button-danger"><?php _e( 'Delete', 'woocommerce-filter-presets' ); ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="column-name">
+                        <strong><a href="#edit-2"><?php _e( 'Mobile Product Filters', 'woocommerce-filter-presets' ); ?></a></strong>
+                        <div class="row-actions">
+                            <span class="edit"><a href="#edit-2"><?php _e( 'Edit', 'woocommerce-filter-presets' ); ?></a> | </span>
+                            <span class="duplicate"><a href="#duplicate-2"><?php _e( 'Duplicate', 'woocommerce-filter-presets' ); ?></a> | </span>
+                            <span class="delete"><a href="#delete-2"><?php _e( 'Delete', 'woocommerce-filter-presets' ); ?></a></span>
+                        </div>
+                    </td>
+                    <td class="column-shortcode"><code>[product_filter_preset id="2"]</code></td>
+                    <td class="column-usage">1</td>
+                    <td class="column-actions">
+                        <a href="#edit-2" class="button button-small"><?php _e( 'Edit', 'woocommerce-filter-presets' ); ?></a>
+                        <a href="#duplicate-2" class="button button-small"><?php _e( 'Duplicate', 'woocommerce-filter-presets' ); ?></a>
+                        <a href="#delete-2" class="button button-small button-danger"><?php _e( 'Delete', 'woocommerce-filter-presets' ); ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="column-name">
+                        <strong><a href="#edit-3"><?php _e( 'Category Page Toolbar Filters', 'woocommerce-filter-presets' ); ?></a></strong>
+                        <div class="row-actions">
+                            <span class="edit"><a href="#edit-3"><?php _e( 'Edit', 'woocommerce-filter-presets' ); ?></a> | </span>
+                            <span class="duplicate"><a href="#duplicate-3"><?php _e( 'Duplicate', 'woocommerce-filter-presets' ); ?></a> | </span>
+                            <span class="delete"><a href="#delete-3"><?php _e( 'Delete', 'woocommerce-filter-presets' ); ?></a></span>
+                        </div>
+                    </td>
+                    <td class="column-shortcode"><code>[product_filter_preset id="3"]</code></td>
+                    <td class="column-usage">5 (Block), 2 (Widget)</td>
+                    <td class="column-actions">
+                        <a href="#edit-3" class="button button-small"><?php _e( 'Edit', 'woocommerce-filter-presets' ); ?></a>
+                        <a href="#duplicate-3" class="button button-small"><?php _e( 'Duplicate', 'woocommerce-filter-presets' ); ?></a>
+                        <a href="#delete-3" class="button button-small button-danger"><?php _e( 'Delete', 'woocommerce-filter-presets' ); ?></a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="col" class="column-name"><?php _e( 'Name', 'woocommerce-filter-presets' ); ?></th>
+                    <th scope="col" class="column-shortcode"><?php _e( 'Shortcode', 'woocommerce-filter-presets' ); ?></th>
+                    <th scope="col" class="column-usage"><?php _e( 'Usage Count', 'woocommerce-filter-presets' ); ?></th>
+                    <th scope="col" class="column-actions"><?php _e( 'Actions', 'woocommerce-filter-presets' ); ?></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>

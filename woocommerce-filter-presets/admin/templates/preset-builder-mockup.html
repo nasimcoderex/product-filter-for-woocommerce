@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?php _e( 'Preset Builder Mockup', 'woocommerce-filter-presets' ); ?></title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; margin: 0; background: #f0f0f1; color: #1d2327; display: flex; flex-direction: column; height: 100vh; }
+        .preset-builder-header { background: #fff; padding: 10px 20px; border-bottom: 1px solid #c3c4c7; display: flex; justify-content: space-between; align-items: center; }
+        .preset-builder-header h1 { font-size: 20px; margin: 0; }
+        .preset-builder-header .actions input[type='text'] { font-size: 14px; padding: 8px; margin-right: 10px; }
+        .preset-builder-header .actions button { font-size: 14px; padding: 8px 12px; background: #007cba; color: #fff; border: none; border-radius: 3px; cursor: pointer; }
+        .preset-builder-header .actions button:hover { background: #0071a1; }
+        .preset-builder-main { display: flex; flex: 1; overflow: hidden; }
+        .filters-config-area { width: 300px; background: #fff; border-right: 1px solid #c3c4c7; padding: 20px; overflow-y: auto; }
+        .filters-config-area h2 { margin-top: 0; font-size: 16px; }
+        .filter-block-list { min-height: 200px; border: 1px dashed #c3c4c7; padding: 10px; margin-bottom: 20px; background: #f9f9f9; }
+        .filter-block-list .filter-block-item { background: #fff; border: 1px solid #ddd; padding: 8px; margin-bottom: 5px; cursor: grab; }
+        .filter-block-list .filter-block-item:hover { border-color: #007cba; }
+        .filter-block-settings-panel { padding: 15px; border: 1px solid #ddd; background: #fdfdfd; margin-top:10px;}
+        .filter-block-settings-panel h3 {margin-top:0; font-size: 14px;}
+        .filter-block-settings-panel .form-field { margin-bottom:10px;}
+        .filter-block-settings-panel label {display:block; margin-bottom:3px; font-weight:bold;}
+        .filter-block-settings-panel select, .filter-block-settings-panel input[type='text'], .filter-block-settings-panel input[type='number'] {width:100%; padding: 5px;}
+
+
+        .preset-preview-area { flex: 1; padding: 20px; background: #e9e9e9; display: flex; flex-direction: column; }
+        .preview-controls { margin-bottom: 10px; text-align: right; }
+        .preview-controls button { padding: 5px 10px; margin-left: 5px; }
+        .preview-pane { flex: 1; background: #fff; border: 1px solid #c3c4c7; padding: 15px; overflow-y: auto; }
+        .preview-pane h4 {margin-top:0;}
+        .preview-pane .filter-item-preview {border:1px solid #eee; padding:10px; margin-bottom:10px;}
+        .preview-pane .filter-item-preview label {font-weight:bold;}
+        .preview-pane .filter-item-preview ul {list-style:none; padding-left:0;}
+        .preview-pane .filter-item-preview ul li {margin-bottom:3px;}
+
+
+        .global-settings-area { width: 250px; background: #fff; border-left: 1px solid #c3c4c7; padding: 20px; overflow-y: auto; }
+        .global-settings-area h2 { margin-top: 0; font-size: 16px; }
+        .form-field { margin-bottom: 15px; }
+        .form-field label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-field input[type="text"], .form-field select { width: calc(100% - 12px); padding: 6px; border: 1px solid #ddd; border-radius: 3px; }
+        .form-field input[type="checkbox"] { margin-right: 5px; }
+
+        /* Tooltip styles */
+        .tooltip { position: relative; display: inline-block; }
+        .tooltip .tooltiptext { visibility: hidden; width: 200px; background-color: #555; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -100px; opacity: 0; transition: opacity 0.3s; }
+        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+        .tooltip .dashicons { text-decoration: none; font-size: 18px; color: #007cba; }
+
+    </style>
+    <!-- Dashicons (for tooltips, conceptual) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dashicons/0.2.2/css/dashicons.min.css">
+</head>
+<body>
+    <div class="preset-builder-header">
+        <h1>Preset Builder</h1>
+        <div class="actions">
+            <label for="preset_name_field" class="screen-reader-text">Preset Name</label>
+            <input type="text" id="preset_name_field" name="preset_name" value="My New Filter Preset" placeholder="Enter Preset Name">
+            <button id="save_preset_button" class="button button-primary">Save Preset</button>
+        </div>
+    </div>
+
+    <div class="preset-builder-main">
+        <div class="filters-config-area">
+            <h2>Filter Blocks
+                <span class="tooltip">
+                    <span class="dashicons dashicons-editor-help"></span>
+                    <span class="tooltiptext">Add and configure individual filter blocks that will appear in your preset. Drag to reorder.</span>
+                </span>
+            </h2>
+            <p>Drag & drop to reorder filters.</p>
+            <div class="filter-block-list" id="filter_block_list_area">
+                <!-- Example Filter Block Item (conceptual) -->
+                <div class="filter-block-item" data-filter-id="1">
+                    Category Filter
+                    <div class="filter-block-settings-panel" style="display:none;"> <!-- Hidden by default, shown on click -->
+                       <h3>Category Filter Settings</h3>
+                       <div class="form-field">
+                           <label for="filter_1_label">Frontend Label</label>
+                           <input type="text" id="filter_1_label" value="Filter by Category">
+                       </div>
+                       <div class="form-field">
+                           <label for="filter_1_render_type">Display Type</label>
+                           <select id="filter_1_render_type">
+                               <option value="checkboxes" selected>Checkboxes</option>
+                               <option value="radio">Radio Buttons</option>
+                               <option value="select">Dropdown Select</option>
+                           </select>
+                       </div>
+                       <!-- More settings here -->
+                    </div>
+                </div>
+                <div class="filter-block-item" data-filter-id="2">Price Range</div>
+                <div class="filter-block-item" data-filter-id="3">Color Swatches (Attribute: pa_color)</div>
+            </div>
+            <button id="add_filter_block_button">Add Filter Block</button>
+            <div class="filter-block-settings-panel" id="filter_block_settings_placeholder" style="margin-top: 20px;">
+                <h3>Selected Block Settings</h3>
+                <p><em>Select a filter block above to see its settings here.</em></p>
+                <div class="form-field">
+                    <label for="filter_setting_label">Label</label>
+                    <input type="text" id="filter_setting_label" placeholder="e.g., Filter by Color">
+                </div>
+                <div class="form-field">
+                    <label for="filter_setting_render">Render As</label>
+                    <select id="filter_setting_render">
+                        <option>Checkboxes</option>
+                        <option>Radio Buttons</option>
+                        <option>Select</option>
+                        <option>Color Swatches</option>
+                        <!-- etc. -->
+                    </select>
+                </div>
+                <div class="form-field">
+                    <input type="checkbox" id="filter_setting_multiselect">
+                    <label for="filter_setting_multiselect">Allow multi-select</label>
+                </div>
+                <p><em>More options like ordering, hierarchy, product counts, etc. would appear here based on filter type.</em></p>
+            </div>
+        </div>
+
+        <div class="preset-preview-area">
+            <div class="preview-controls">
+                <button id="desktop_preview_button">Desktop</button>
+                <button id="mobile_preview_button">Mobile</button>
+            </div>
+            <div class="preview-pane" id="live_preview_pane_area">
+                <h4>Live Preview</h4>
+                <p><em>This pane will show a live preview of the filters as they are configured.</em></p>
+
+                <!-- Conceptual preview of filters -->
+                <div class="filter-item-preview">
+                    <label>Filter by Category</label>
+                    <ul>
+                        <li><input type="checkbox" id="cat_prev_1" checked> <label for="cat_prev_1">Clothing (15)</label></li>
+                        <li><input type="checkbox" id="cat_prev_2"> <label for="cat_prev_2">Accessories (8)</label></li>
+                        <li><input type="checkbox" id="cat_prev_3"> <label for="cat_prev_3">Music (12)</label></li>
+                    </ul>
+                </div>
+                <div class="filter-item-preview">
+                    <label>Price Range</label>
+                    <p>$10 - $100 (Slider would be here)</p>
+                </div>
+                 <div class="filter-item-preview">
+                    <label>Color Swatches</label>
+                    <p>(Color swatches preview would be here)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="global-settings-area">
+            <h2>Global Preset Options
+                 <span class="tooltip">
+                    <span class="dashicons dashicons-admin-generic"></span>
+                    <span class="tooltiptext">Settings that apply to the entire preset, like AJAX behavior and permalinks.</span>
+                </span>
+            </h2>
+            <div class="form-field">
+                <label for="preset_ajax_enabled">AJAX Filtering</label>
+                <select id="preset_ajax_enabled">
+                    <option value="true" selected>Enabled (Instant)</option>
+                    <option value="apply_button">Enabled (With "Apply" Button)</option>
+                    <option value="false">Disabled (Full Page Reload)</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="preset_permalink_mode">Permalink Mode</label>
+                <select id="preset_permalink_mode">
+                    <option value="default" selected>Keep Original</option>
+                    <option value="append_terms">Append Terms (WC Style)</option>
+                    <option value="pretty">Custom Pretty Permalinks</option>
+                </select>
+            </div>
+             <div class="form-field">
+                <input type="checkbox" id="preset_lazy_load" name="preset_lazy_load" checked>
+                <label for="preset_lazy_load">Lazy-load filter options</label>
+            </div>
+            <div class="form-field">
+                <label for="preset_custom_loader">Custom AJAX Loader URL</label>
+                <input type="text" id="preset_custom_loader" name="preset_custom_loader" placeholder="https://example.com/loader.gif">
+            </div>
+            <div class="form-field">
+                <label for="reset_all_button_pos">Reset All Button Position</label>
+                <select id="reset_all_button_pos">
+                    <option value="top" selected>Top of Filters</option>
+                    <option value="bottom">Bottom of Filters</option>
+                    <option value="none">Don't Show</option>
+                </select>
+            </div>
+             <div class="form-field">
+                <input type="checkbox" id="scroll_to_top" name="scroll_to_top" checked>
+                <label for="scroll_to_top">Scroll to top after filtering</label>
+            </div>
+            <hr>
+            <p><em>Additional global options like guidance/help text settings could go here.</em></p>
+            <button id="save_preset_button_alt" class="button button-primary" style="width:100%;">Save Preset</button>
+        </div>
+    </div>
+</body>
+</html>
