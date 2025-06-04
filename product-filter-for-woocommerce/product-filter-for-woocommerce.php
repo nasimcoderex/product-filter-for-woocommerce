@@ -1,155 +1,72 @@
 <?php
 /**
- * Plugin Name:       Product Filter for WooCommerce
- * Plugin URI:        https://example.com/plugins/the-basics/
- * Description:       A product filter plugin for WooCommerce.
- * Version:           1.0.0
- * Author:            Your Name
+ * Plugin Name:       Product Filter for WooCommerce (Rewrite)
+ * Plugin URI:        https://example.com/product-filter-woocommerce
+ * Description:       Advanced product filtering for WooCommerce. (Based on new PRD)
+ * Version:           0.1.0
+ * Author:            Your Name / Company
  * Author URI:        https://example.com/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       product-filter-for-woocommerce
+ * Text Domain:       pfw-rewrite
  * Domain Path:       /languages
+ * Requires PHP:      7.4
+ * Requires at least: 5.8
+ * WC requires at least: 6.0
+ * WC tested up to: 8.0
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-    die;
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
 }
 
-/**
- * Check if WooCommerce is active.
- */
-if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-    add_action( 'admin_notices', 'pfw_woocommerce_not_active_notice' );
-    add_action( 'admin_init', 'pfw_deactivate_plugin' );
-    return;
+// Define plugin constants
+define( 'PFW_PLUGIN_FILE', __FILE__ );
+define( 'PFW_PLUGIN_DIR', plugin_dir_path( PFW_PLUGIN_FILE ) );
+define( 'PFW_PLUGIN_URL', plugin_dir_url( PFW_PLUGIN_FILE ) );
+define( 'PFW_VERSION', '0.1.0' ); // Keep in sync with plugin header version
+
+// Placeholder for activation/deactivation hooks
+function pfw_activate_plugin_rewrite() {
+    // Placeholder for activation tasks
+    // e.g., flush rewrite rules, set default options
 }
+register_activation_hook( PFW_PLUGIN_FILE, 'pfw_activate_plugin_rewrite' );
 
-function pfw_woocommerce_not_active_notice() {
-    ?>
-    <div class="error">
-        <p><?php _e( 'Product Filter for WooCommerce requires WooCommerce to be active. Please activate WooCommerce.', 'product-filter-for-woocommerce' ); ?></p>
-    </div>
-    <?php
+function pfw_deactivate_plugin_rewrite() {
+    // Placeholder for deactivation tasks
 }
+register_deactivation_hook( PFW_PLUGIN_FILE, 'pfw_deactivate_plugin_rewrite' );
 
-function pfw_deactivate_plugin() {
-    deactivate_plugins( plugin_basename( __FILE__ ) );
-    if ( isset( $_GET['activate'] ) ) {
-        unset( $_GET['activate'] );
-    }
-}
-
-/**
- * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
- */
-define( 'PRODUCT_FILTER_FOR_WOOCOMMERCE_VERSION', '1.0.0' );
-
-// Define PFW_VERSION for consistency if used elsewhere, though PRODUCT_FILTER_FOR_WOOCOMMERCE_VERSION is primary.
-if ( ! defined( 'PFW_VERSION' ) ) {
-    define( 'PFW_VERSION', PRODUCT_FILTER_FOR_WOOCOMMERCE_VERSION );
-}
-
-// Define plugin URL for easy access to assets.
-if ( ! defined( 'PFW_PLUGIN_URL' ) ) {
-    define( 'PFW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-}
-if ( ! defined( 'PFW_PLUGIN_DIR' ) ) {
-    define( 'PFW_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-}
-
-/**
- * Define constants for plugin features.
- */
-// TODO: PFW_CHECKOUT_OVERRIDE_ENABLED is now a setting, consider removing if no other constants are needed.
-
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-product-filter-for-woocommerce-activator.php
- */
-function pfw_activate_plugin() {
-    // Activation tasks: set default options, flush rewrite rules, etc.
-    // For now, we might just use the existing Activator class if it's suitable,
-    // or add direct code here.
-    require_once plugin_dir_path( __FILE__ ) . 'includes/class-product-filter-for-woocommerce-activator.php';
-    Product_Filter_For_WooCommerce_Activator::activate();
-}
-
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-product-filter-for-woocommerce-deactivator.php
- */
-function pfw_deactivate_plugin_on_deactivation() {
-    // Deactivation tasks: clean up options, remove custom tables, etc.
-    // For now, we might just use the existing Deactivator class if it's suitable,
-    // or add direct code here.
-    require_once plugin_dir_path( __FILE__ ) . 'includes/class-product-filter-for-woocommerce-deactivator.php';
-    Product_Filter_For_WooCommerce_Deactivator::deactivate();
-}
-
-register_activation_hook( __FILE__, 'pfw_activate_plugin' );
-register_deactivation_hook( __FILE__, 'pfw_deactivate_plugin_on_deactivation' );
-
-// The following was part of the original boilerplate but the class was never implemented.
-// /**
-//  * The core plugin class that is used to define internationalization,
-//  * admin-specific hooks, and public-facing site hooks.
-//  */
-// require plugin_dir_path( __FILE__ ) . 'includes/class-product-filter-for-woocommerce.php';
-
-/**
- * The class responsible for checkout modifications.
- */
-require plugin_dir_path( __FILE__ ) . 'includes/class-pfw-checkout.php';
-
-/**
- * The class responsible for administrative settings.
- */
+// Load admin-specific code
 if ( is_admin() ) {
-    require PFW_PLUGIN_DIR . 'admin/class-pfw-admin-settings.php';
+    require_once PFW_PLUGIN_DIR . 'admin/class-pfw-admin-menu.php';
+    // Future admin classes will be included here
 }
 
-/**
- * Include widget classes.
- */
-require_once PFW_PLUGIN_DIR . 'includes/widgets/class-pfw-product-filter-widget.php';
+// Include widget classes
+require_once PFW_PLUGIN_DIR . 'includes/widgets/class-pfw-category-filter-widget.php';
 // Future widgets will be included here.
 
-/**
- * Include core filtering logic.
- */
-require_once PFW_PLUGIN_DIR . 'includes/class-pfw-product-filtering.php';
+// Include core filtering logic
+require_once PFW_PLUGIN_DIR . 'includes/class-pfw-filtering-logic.php';
 
-/**
- * Handle Assets (CSS, JS).
- */
-require_once PFW_PLUGIN_DIR . 'includes/class-pfw-assets.php';
+// Handle Public Assets (CSS, JS)
+require_once PFW_PLUGIN_DIR . 'includes/class-pfw-public-assets.php';
 
 /**
  * Register Widgets.
  */
-function pfw_register_widgets() {
-    register_widget( 'PFW_Product_Filter_Widget' );
+function pfw_rewrite_register_widgets() {
+    register_widget( 'PFW_Category_Filter_Widget' );
+    // Future widgets will be registered here
 }
-add_action( 'widgets_init', 'pfw_register_widgets' );
+add_action( 'widgets_init', 'pfw_rewrite_register_widgets' );
 
-// The following was part of the original boilerplate and depended on the unimplemented core class.
-// /**
-//  * Begins execution of the plugin.
-//  *
-//  * Since everything within the plugin is registered via hooks,
-//  * then kicking off the plugin from this point in the file does
-//  * not affect the page life cycle.
-//  *
-//  * @since    1.0.0
-//  */
-// function run_product_filter_for_woocommerce() {
-//
-//     $plugin = new Product_Filter_For_WooCommerce();
-//     $plugin->run();
-//
+// Placeholder for loading main plugin class or functions
+// require_once PFW_PLUGIN_DIR . 'includes/class-pfw-main.php';
+// function pfw_run_plugin() {
+//     PFW_Main::instance();
 // }
-// run_product_filter_for_woocommerce();
+// add_action( 'plugins_loaded', 'pfw_run_plugin' );
+?>

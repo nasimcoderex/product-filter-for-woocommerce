@@ -1,0 +1,45 @@
+/* Basic Styling for PFW Category Filter Widget */
+.widget_pfw_category_filter_widget ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0; /* Add some margin below the list */
+}
+
+.widget_pfw_category_filter_widget ul li {
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.widget_pfw_category_filter_widget ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 5px;
+    border-radius: 3px;
+    color: #333;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.widget_pfw_category_filter_widget ul li a:hover {
+    background-color: #f0f0f0;
+    color: #0073aa; /* Example hover color */
+}
+
+.widget_pfw_category_filter_widget ul li a.active {
+    font-weight: bold;
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.widget_pfw_category_filter_widget .pfw-clear-filter-link {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.widget_pfw_category_filter_widget .pfw-clear-filter-link a {
+    color: #a00; /* Reddish color */
+    text-decoration: none;
+}
+
+.widget_pfw_category_filter_widget .pfw-clear-filter-link a:hover {
+    text-decoration: underline;
+}
