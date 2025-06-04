@@ -110,6 +110,9 @@ function wcfp_render_preset_builder_meta_box_content( $post ) {
 	// Hidden field to store the structured filter data for submission
 	echo '<input type="hidden" name="wcfp_filters_data" id="wcfp_filters_data_input">';
 
+	// ARIA live region for announcements
+	echo '<div id="wcfp-drag-announcer" aria-live="assertive" class="screen-reader-text"></div>';
+
 	// Get saved global options
 	$preset_options = get_post_meta( $post->ID, '_wcfp_preset_options', true );
 	if ( ! is_array( $preset_options ) ) {
@@ -130,7 +133,7 @@ function wcfp_render_preset_builder_meta_box_content( $post ) {
 					<tr valign="top">
 						<th scope="row">
 							<label for="wcfp_ajax_mode"><?php esc_html_e( 'Filtering Mode', 'woocommerce-filter-presets' ); ?></label>
-							<span class="wcfp-tooltip" title="<?php esc_attr_e('AJAX updates products instantly without a full page reload. Full Page Reload behaves like standard WooCommerce filtering.', 'woocommerce-filter-presets'); ?>">[?]</span>
+							<span class="wcfp-tooltip" title="<?php esc_attr_e('AJAX updates products instantly without a full page reload. Full Page Reload behaves like standard WooCommerce filtering.', 'woocommerce-filter-presets'); ?>" tabindex="0">[?]</span>
 						</th>
 						<td>
 							<select name="wcfp_preset_options[ajax_mode]" id="wcfp_ajax_mode">
