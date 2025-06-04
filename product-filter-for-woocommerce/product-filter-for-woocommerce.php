@@ -57,6 +57,9 @@ if ( ! defined( 'PFW_VERSION' ) ) {
 if ( ! defined( 'PFW_PLUGIN_URL' ) ) {
     define( 'PFW_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
+if ( ! defined( 'PFW_PLUGIN_DIR' ) ) {
+    define( 'PFW_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+}
 
 /**
  * Define constants for plugin features.
@@ -105,8 +108,32 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-pfw-checkout.php';
  * The class responsible for administrative settings.
  */
 if ( is_admin() ) {
-    require plugin_dir_path( __FILE__ ) . 'admin/class-pfw-admin-settings.php';
+    require PFW_PLUGIN_DIR . 'admin/class-pfw-admin-settings.php';
 }
+
+/**
+ * Include widget classes.
+ */
+require_once PFW_PLUGIN_DIR . 'includes/widgets/class-pfw-product-filter-widget.php';
+// Future widgets will be included here.
+
+/**
+ * Include core filtering logic.
+ */
+require_once PFW_PLUGIN_DIR . 'includes/class-pfw-product-filtering.php';
+
+/**
+ * Handle Assets (CSS, JS).
+ */
+require_once PFW_PLUGIN_DIR . 'includes/class-pfw-assets.php';
+
+/**
+ * Register Widgets.
+ */
+function pfw_register_widgets() {
+    register_widget( 'PFW_Product_Filter_Widget' );
+}
+add_action( 'widgets_init', 'pfw_register_widgets' );
 
 /**
  * Begins execution of the plugin.

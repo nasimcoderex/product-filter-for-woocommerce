@@ -1,0 +1,73 @@
+/* PFW Product Filter Widget Styles */
+.widget_pfw_product_filter_widget ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 20px; /* Space before next section (e.g., price) */
+}
+
+.widget_pfw_product_filter_widget ul li {
+    margin-bottom: 5px;
+}
+
+.widget_pfw_product_filter_widget ul li a {
+    display: block;
+    padding: 4px 0;
+    text-decoration: none;
+    color: #333; /* Default link color */
+    transition: color 0.2s ease-in-out;
+}
+
+.widget_pfw_product_filter_widget ul li a:hover {
+    color: #0073aa; /* WordPress blue or your theme's link hover color */
+}
+
+.widget_pfw_product_filter_widget ul li a.active {
+    font-weight: bold;
+    color: #000; /* Or a more prominent color */
+}
+
+.widget_pfw_product_filter_widget .pfw-price-filter-form p {
+    margin-bottom: 10px;
+}
+
+.widget_pfw_product_filter_widget .pfw-price-filter-form label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600; /* Slightly bolder labels */
+}
+
+.widget_pfw_product_filter_widget .pfw-price-filter-form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.widget_pfw_product_filter_widget .pfw-price-filter-form button {
+    padding: 8px 15px;
+    background-color: #0073aa; /* WordPress blue */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.widget_pfw_product_filter_widget .pfw-price-filter-form button:hover {
+    background-color: #005177; /* Darker WordPress blue */
+}
+
+.widget_pfw_product_filter_widget .pfw-clear-filters {
+    margin-top: 15px; /* Ensure it's properly spaced if it appears */
+}
+
+.widget_pfw_product_filter_widget .pfw-clear-filters a {
+    color: #a00; /* Reddish color for clear/warning */
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.widget_pfw_product_filter_widget .pfw-clear-filters a:hover {
+    text-decoration: underline;
+}
